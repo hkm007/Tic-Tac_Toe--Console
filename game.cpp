@@ -1,4 +1,7 @@
 #include <iostream>
+#include<string>
+#include <time.h>  
+
 using namespace std;
 
 // Game Board
@@ -10,20 +13,29 @@ void mark(int, int);     //function for marking the place
 int checkWin(int);       //function for checking winnner
 int checkDraw(void);     //function for checking draw game
 void changeSign(int &);  //function for flipping turn
- 
+int toss(string,string); // function for tossing 
 int main()               // Driver code
 {
-	cout << "TIC TAC TOE\n";
-	int choice, w = 1, turn = 1;
+    
+	cout << "\nTIC TAC TOE challenge...........\n";
+	int choice, w = 1, turn;
+    string player1,player2;
 	char p1 = 'X', p2 = 'O';
+    cout<<"\nEnter player 1 name: ";
+    getline(cin,player1);
+    cout<<"Enter player 2 name: ";
+    getline(cin,player2);
+
+    //Toss time
+    turn = toss(player1,player2);
 	
 	while(w)
 	{
 		display();
 		
-		if(turn == 1) cout << "P1's turn(X): ";
-		else cout << "P2's turn(O): ";
-		cout << " Enter place: ";
+		if(turn == 1) cout<<player1<<" turn(X): ";  
+		else cout<<player2<<"\'s turn(O): ";
+		cout <<" Enter place: ";
 		cin >> choice;
 		
 		if(validate(choice) == 1)
@@ -33,8 +45,8 @@ int main()               // Driver code
 			if(checkWin(turn) == 1)
 			{
 				display();
-				if(turn == 1) cout << "P1(X) won!!\n";
-				else cout << "P2(O) won!!\n";
+				if(turn == 1) cout <<player1<<" (X) won!!\n";
+				else cout <<player2<<" (O) won!!\n";
 				w = 0;
 			}
 			
@@ -125,4 +137,23 @@ void changeSign(int &t)
 {
 	if(t == 1) t = 2;
 	else t = 1;
+}
+
+int toss(string p1,string p2)
+{
+    cout<<"\nTossing......"<<endl;
+
+    srand(time(0));  // Required for generating random numbers based on unique time
+    int lower = 1,num;
+    num = (rand() % 2) + lower;  // generates number 1 or 2 randomly
+    if(num == 1)
+    {
+        cout<<"\nToss result: "<<p1<<" won the toss...."<<endl;
+        return(1);
+    }
+    else
+    {
+        cout<<"\nToss result: "<<p2<<" won the toss...."<<endl;
+        return(2);
+    }
 }
